@@ -94,5 +94,6 @@ Promise.all([p1,p2,p3]).then( (value) => {
   
   module.exports.personSchema = personSchema;
   module.exports.storySchema = storySchema;
-  module.exports.csv = Csv;
+  module.exports.CsvSchema = CsvSchema;
+  module.exports.Csv = Csv;
 })();
