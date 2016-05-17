@@ -2,7 +2,7 @@
 (() => {
 "use strict"; // Use ECMAScript 5 strict mode in browsers that support it
  
-/*const handleFileSelect = (evt) => {
+const handleFileSelect = (evt) => {
   evt.stopPropagation();
   evt.preventDefault();
 
@@ -16,7 +16,7 @@
   reader.readAsText(files[0])
 }
 
-/* Drag and drop: el fichero arrastrado se vuelca en la textarea de entrada 
+// Drag and drop: el fichero arrastrado se vuelca en la textarea de entrada 
 const handleDragFileSelect = (evt) => {
   evt.stopPropagation();
   evt.preventDefault();
@@ -39,9 +39,6 @@ const handleDragOver = (evt) => {
 }
 
 
-
-*/
-
 $(document).ready(() => {
     let original = document.getElementById("original");  
     if (window.localStorage && localStorage.original) {
@@ -58,7 +55,7 @@ $(document).ready(() => {
         );
    });    
 
-    /* Request AJAX para que se calcule la tabla 
+    //Request AJAX para que se calcule la tabla 
     $("#parse").click( () => {
         if (window.localStorage) localStorage.original = original.value;
       
@@ -73,14 +70,35 @@ $(document).ready(() => {
       var dataString = $('#original').val();
       console.log('Valor dataString: '+ dataString);
       if (window.localStorage) localStorage.original = original.value;
-      console.log(dataString);
       var id=$('#id').val();
+      
       $.get('/mongo/' + id , {
          dataString
         });
     });
     
-   /* botones para rellenar el textarea 
+    
+const resultTemplate = `
+<div class="contenido">
+      <table class="center" id="result">
+          <% _.each(rows, (row) => { %>
+          <tr class="<%=row.type%>">
+              <% _.each(row.items, (name) =>{ %>
+              <td><%= name %></td>
+              <% }); %>
+          </tr>
+          <% }); %>
+      </table>
+  </p>
+</div>
+`;
+
+/* Volcar la tabla con el resultado en el HTML */
+const fillTable = (data) => { 
+  $("#finaltable").html(_.template(resultTemplate, { rows: data.rows })); 
+};
+    
+   // botones para rellenar el textarea 
     $('button.example').each( (_,y) => {
          console.log($(y).text());
 
@@ -111,7 +129,7 @@ $(document).ready(() => {
     dropZone.addEventListener('dragover', handleDragOver, false);
     dropZone.addEventListener('drop', handleDragFileSelect, false);
     let inputFile = $('.inputfile')[0];
-    inputFile.addEventListener('change', handleFileSelect, false);*/
+    inputFile.addEventListener('change', handleFileSelect, false);
  });
 })();
 

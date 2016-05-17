@@ -9,6 +9,7 @@ const calculate = require('./models/calculate.js');
 const basedatos = require('./models/schema.js');
 const Person = basedatos.personSchema;
 const Story = basedatos.storySchema;
+const Csvschema  = basedatos.CsvSchema;
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -69,7 +70,7 @@ app.get('/usuario', (request, response) => {
 
 app.get('/mongo/:nombre', function(req, res) {
   /* ... Consultar la base de datos y retornar contenidos de input1 ... */
-  basedatos.CsvSchema.find({}, function(err, docs) {
+  basedatos.Csv.find({}, function(err, docs) {
         if (err)
             return err;
         if (docs.length >= 4) {
@@ -77,7 +78,7 @@ app.get('/mongo/:nombre', function(req, res) {
         }
   });
         //este let se hace en el schema (no se puede crear una variable nueva así) [mirar como se ha de hacer]
-        let c4 = new basedatos.CsvSchema({
+        let c4 = new basedatos.Csv({
         "id": req.params.nombre,
         "data": req.query.dataString
         });
@@ -92,7 +93,7 @@ app.get('/mongo/:nombre', function(req, res) {
 
 
 app.get('/encuentra', function(req, res) {
-    basedatos.csv.find({}, function(err, docs) {
+    basedatos.Csv.find({}, function(err, docs) {
         if (err)
             return err;
         res.send(docs);
@@ -102,7 +103,7 @@ app.get('/encuentra', function(req, res) {
 /*Se devuelve como respuesta la entrada correspondiente al nombre
   especificado en la request*/
 app.get('/imput', function(req, res) {
-    basedatos.csv.find({
+    basedatos.Csv.find({
         id: req.query.id
     }, function(err, docs) {
         res.send(docs);
