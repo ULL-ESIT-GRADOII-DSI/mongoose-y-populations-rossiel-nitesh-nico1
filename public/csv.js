@@ -45,20 +45,82 @@ $(document).ready(() => {
       original.value = localStorage.original;
     }
     
-    /* Request AJAX para que se busque el usuario */
     
-    $("#usuario").click( () => {
+    
+    
+ $("#usuario").click( () => { 
+      var informacion = $('#userid').val();
+      $.get('/bonito' , {
+         informacion},
+         (data) => {
+        console.log ("entrando aqui ");
+        for (var i = 0; i < 4; i++) {
+            console.log ("mostrando pepino %o", data);
+            if (data[i]) {
+                $('button.example2').get(i).className = "example2";
+                $('button.example2').get(i).textContent = data[i].id;
+            }
+        }
+            
+         
+        });
+    });
+    
+    
+    
+ $("#parse").click( () => {
+        if (window.localStorage) localStorage.original = original.value;
+        $.get("/csv", 
+          { input: original.value }, 
+          fillTable,
+          'json'
+        );
+   });
+    
+
+    
+   /* 
+     $.get("/bonito", {}, (data) => {
+        console.log ("entrando aqui ");
+        for (var i = 0; i < 4; i++) {
+            console.log ("mostrando pepino " + data[i]);
+            if (data[i]) {
+                $('button.example2').get(i).className = "example2";
+                $('button.example2').get(i).textContent = data[i].id;
+            }
+        }
+    });
+    */
+    
+    /* Request AJAX para que se busque el usuario */
+
+
+   /* $("#usuario").click( () => {
         if (window.localStorage) localStorage.user = user.value;
-      
+        console.log("usaer.value en cliente");
+        console.log(user.value);
         $.get("/usuario", 
           { user: user.value }
         );
-   });    
+        $.get("/bonito",
+          { user: user.value
+          },
+          (data) => {
+             
+             for (var i = 0; i < 8; i++){
+                 if (data[i]) {
+                     $('button.example').get(i).className = "example";
+                     $('button.example').get(i).textContent = data[i].id;
+                 }
+             }
+             
+          }
+        );
+   });    */
 
     //Request AJAX para que se calcule la tabla 
     $("#parse").click( () => {
         if (window.localStorage) localStorage.original = original.value;
-      
         $.get("/csv", 
           { input: original.value }, 
           fillTable,
@@ -100,7 +162,7 @@ const fillTable = (data) => {
     
    // botones para rellenar el textarea 
     $('button.example').each( (_,y) => {
-         console.log($(y).text());
+         //console.log($(y).text());
 
      $(y).click( () => { 
        $.get("/imput", {
@@ -112,8 +174,28 @@ const fillTable = (data) => {
        });
    });
    
+   
+   
+   
+      // botones para rellenar el textarea 
+    $('button.example2').each( (_,y) => {
+         //console.log($(y).text());
+
+     $(y).click( () => { 
+       $.get("/strong", {
+            id: $(y).text()
+       },
+        (data) => {
+            $("#original").val(data[0].data);
+        });
+       });
+   });
+   
+   
+   
+   
+   
     $.get("/encuentra", {}, (data) => {
- console.log("Que es: ");
 
         for (var i = 0; i < 4; i++) {
             if (data[i]) {
@@ -122,6 +204,11 @@ const fillTable = (data) => {
             }
         }
     });
+    
+   
+   
+   
+   
 
     // Setup the drag and drop listeners.
     //var dropZone = document.getElementsByClassName('drop_zone')[0];
@@ -130,6 +217,9 @@ const fillTable = (data) => {
     dropZone.addEventListener('drop', handleDragFileSelect, false);
     let inputFile = $('.inputfile')[0];
     inputFile.addEventListener('change', handleFileSelect, false);
- });
+ }); // document.ready
+
+    
+    
 })();
 

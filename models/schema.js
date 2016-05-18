@@ -13,20 +13,21 @@
     data : String
   });
   
- const personSchema = Schema({
-    name    : String,
-    stories : [{ type: Schema.Types.ObjectId, ref: 'Story' }]
+    const CsvUser = Schema({ 
+    id : String,
+    data : String,
+    _creator : { type: Schema.Types.ObjectId, ref: 'Person' }
   });
-
-  const storySchema = Schema({
-    _creator : { type: Schema.Types.ObjectId, ref: 'Person' },
-    title    : String
+  
+ const personSchema = Schema({
+    name: String,
+    csv : [{ type: Schema.Types.ObjectId, ref: 'Owner' }]
   });
  
   
   const Csv = mongoose.model("Csv", CsvSchema);
 
-  Csv.remove({}).exec();
+  Csv.remove({}).then(() =>{
   let c1 = new Csv({'id':'input1', 'data':'"producto","precio" "camisa","4,3" "libro de O\'Reilly", "7,2"'});
   let c2 = new Csv({'id':'input2', 'data':"'producto','precio' 'fecha' 'camisa','4,3','14/01' 'libro de O\"Reilly', '7,2' '13/02'"});
   let c3 = new Csv({'id':'input3', 'data':"'edad', 'sueldo','peso','6000€', '90Kg' 47, '3000€', '100Kg'"});
@@ -49,51 +50,52 @@
 
 
 Promise.all([p1,p2,p3]).then( (value) => { 
-    console.log(util.inspect(value, {depth: null}));  
+    //console.log(util.inspect(value, {depth: null}));  
   //  mongoose.connection.close(); No cerrar nunca la conección, produce errores de sincronización
   });
+});
   
   
-  const Story  = mongoose.model('Story', storySchema);
   const Person = mongoose.model('Person', personSchema);
+  const Owner = mongoose.model('Owner', CsvUser);
 
   Person.remove({}).then(()=>{
-    Story.remove({}).then( () => {
       let aaron = new Person({ name: 'Aaron' });
 
       aaron.save(function (err) {
-        if (err) return console.log(err);
-      
-        let story1 = new Story({
-          title: "Once upon a timex.",
-          _creator: aaron._id    // assign the _id from the person
-        });
-      
-        story1.save(function (err) {
-          if (err) return console.log(err);
-          // thats it!
-        }).then(()=>{
+        if (err) 
+          return console.log(err);
+        Owner.remove({}).then(() =>{
+             let c1 = new Owner({
+                'id':'prueba1',
+                'data':'probando',
+                _creator: aaron._id
+              });
+             let c2 = new Owner({
+                'id':'prueba2',
+                'data':'tuprima',
+                _creator: aaron._id
+              });
+             let c3 = new Owner({
+                'id':'prueba3',
+                'data':'tuabuela',
+                _creator: aaron._id
+              });
 
-          Story
-          .findOne({ title: 'Once upon a timex.' })
-          .populate('_creator')
-          .exec(function (err, story) {
-            if (err) return console.log(err);
-            console.log('The creator is %s', story._creator.name);
-            // prints "The creator is Aaron"
-          }).then( () => {
-           // mongoose.connection.close(); 
-          });
-
-        });
-      });
-    });
-  });
+             c1.save(function (err) {
+                if (err) return console.log(err);
+              });
+             c2.save(function (err) {
+                if (err) return console.log(err);
+              }); 
+              c3.save(function (err) {
+                if (err) return console.log(err);
+               });
+         }); // owner remove
+        }); // aaron save
+    }); //person remove
   
-  
-  
-  module.exports.personSchema = personSchema;
-  module.exports.storySchema = storySchema;
-  module.exports.CsvSchema = CsvSchema;
+  module.exports.Person = Person;
   module.exports.Csv = Csv;
+  module.exports.Owner = Owner;
 })();
