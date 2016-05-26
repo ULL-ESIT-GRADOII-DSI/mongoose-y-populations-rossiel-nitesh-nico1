@@ -10,4 +10,4 @@
 
 ### Enlace al repositorio git de la práctica:
 
-* [Ajax](https://github.com/ULL-ESIT-GRADOII-DSI/mongoose-y-populations-rossiel-nitesh-nico1)
+* [Mongoose y Populations](https://github.com/ULL-ESIT-GRADOII-DSI/mongoose-y-populations-rossiel-nitesh-nico1)
