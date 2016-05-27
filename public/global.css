@@ -1,3 +1,6 @@
+body {
+    background-color: skyblue;
+}
 table.center {
 	font-weight: bold;
 	color: black;
@@ -9,7 +12,7 @@ table.center {
 	border: ridge;
 	border-color: blue;
 	
-	background-color: white;	
+	background-color: green;	
 }
 .output tr:nth-child(odd)    { background-color:#eee; }
 .output tr:nth-child(even)   { background-color:#00FF66; }
@@ -30,4 +33,14 @@ table.center {
 .footer a {
     color: #FFF;
     text-decoration: none;
+}
+
+#left {
+    float: left;
+    margin-left: 3%;
+}
+
+#right {
+    float: right;
+    margin-right: 3%;
 }

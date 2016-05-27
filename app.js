@@ -98,6 +98,7 @@ app.get('/mongo/:nombre', function(req, res) {
             return err;
         }
         console.log(`Guardado: ${c4}`);
+        
     });
 });
 
@@ -112,9 +113,15 @@ app.get('/encuentra', function(req, res) {
 });
 
 
+
+var update = {
+  $set: {name: req.query.informacion}
+} 
+
+
 app.get('/bonito', function(req, res) {
     console.log ("primero " + req.query.informacion);
-    Person.find({name: req.query.informacion},function(err, docs) {
+    Person.findOneAndUpdate({name: req.query.informacion}, update, {upsert: true}, function(err, docs) {
         if (err){
             console.log (err);
         } 
@@ -123,6 +130,7 @@ app.get('/bonito', function(req, res) {
         console.log("id aaron " + docs[0]._id);
     basedatos.Owner.find({}, function (err, datos){
         if (err){
+            
             console.log (err);
         }
         console.log ("prueba " + datos );

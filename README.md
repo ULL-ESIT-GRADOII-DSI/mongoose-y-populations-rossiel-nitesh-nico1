@@ -1,4 +1,4 @@
-# Práctica 2: Comma separated values (CSV) with AJAX
+# Proyecto: Mongoose and populations
 
 ### Participantes:
 
@@ -10,11 +10,11 @@
 
 ### Enlace al repositorio git de la práctica:
 
-* [Ajax](https://github.com/ULL-ESIT-GRADOII-DSI/ajax-ecma6-ficheros-rossiel-nitesh-nico1)
+* [Mongoose and Populations](https://github.com/ULL-ESIT-GRADOII-DSI/proyecto-final-rossiel-nitesh-nico)
 
-### Enlace a la descripción de la práctica en el Campus Virtual de la asignatura:
+### Enlace a la descripción del proyecto en el Campus Virtual de la asignatura:
 
-* [Campus Virtual](https://campusvirtual.ull.es/1516/mod/page/view.php?id=189370)
+* [Campus Virtual](https://casianorodriguezleon.gitbooks.io/pl1516/content/proyectos/proyectodsi.html)
 
 ### Enlace a HEROKU:
 

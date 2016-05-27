@@ -128,6 +128,8 @@ $(document).ready(() => {
         );
    });
    
+//Botones de ejemplo   
+   
    $("#saving").click( () => { 
       var dataString = $('#original').val();
       console.log('Valor dataString: '+ dataString);
@@ -137,7 +139,30 @@ $(document).ready(() => {
       $.get('/mongo/' + id , {
          dataString
         });
+        
+        
+       $.get("/encuentra", {}, (data) => {
+
+        for (var i = 0; i < 4; i++) {
+            if (data[i]) {
+                $('button.example').get(i).className = "example";
+                $('button.example').get(i).textContent = data[i].id;
+
+            }
+        }
     });
+});
+
+
+//Botones de usuario
+
+      $("#").click( () => { 
+          
+          
+          
+      });
+
+
     
     
 const resultTemplate = `
@@ -201,6 +226,7 @@ const fillTable = (data) => {
             if (data[i]) {
                 $('button.example').get(i).className = "example";
                 $('button.example').get(i).textContent = data[i].id;
+
             }
         }
     });
