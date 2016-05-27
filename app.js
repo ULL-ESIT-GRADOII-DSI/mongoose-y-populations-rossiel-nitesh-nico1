@@ -114,14 +114,11 @@ app.get('/encuentra', function(req, res) {
 
 
 
-var update = {
-  $set: {name: 'Anon'}
-} 
 
 
 app.get('/bonito', function(req, res) {
     console.log ("primero " + req.query.informacion);
-    Person.findOneAndUpdate({name: req.query.informacion}, update, {upsert: true, 'new': true}, function(err, docs) {
+    Person.findOneAndUpdate({name: req.query.informacion}, {upsert: true, 'new':true}, function(err, docs) {
         if (err){
             console.log (err);
         } 
