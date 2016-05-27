@@ -1,1 +1,0 @@
-# proyecto-final-rossiel-nitesh-nico
