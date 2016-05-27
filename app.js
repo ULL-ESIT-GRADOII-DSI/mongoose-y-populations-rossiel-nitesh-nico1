@@ -120,15 +120,12 @@ app.get('/bonito', function(req, res) {
     console.log ("primero " + req.query.informacion);
         var update = {name: req.query.informacion, csv: []}
     Person.findOneAndUpdate({name: req.query.informacion}, update, {upsert: true, 'new':true}, function(err, docs) {
-        if (err){
-            console.log (err);
-        } 
-        
-       
+        if (err)  console.log (err);
+
         console.log ("docs " + utils.inspect(docs, {depth: null}));
-        
+    
         console.log("id aaron " + docs._id);
-    basedatos.Owner.find({}, function (err, datos){
+    basedatos.Owner.find({id: docs._id}, function (err, datos){
         if (err){
             
             console.log (err);
