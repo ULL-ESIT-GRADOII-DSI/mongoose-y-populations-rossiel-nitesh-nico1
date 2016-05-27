@@ -53,12 +53,16 @@ $(document).ready(() => {
       $.get('/bonito' , {
          informacion},
          (data) => {
-        console.log ("entrando aqui ");
         for (var i = 0; i < 4; i++) {
             console.log ("mostrando pepino %o", data);
+            
             if (data[i]) {
                 $('button.example2').get(i).className = "example2";
                 $('button.example2').get(i).textContent = data[i].id;
+            }
+            else{
+                 $('button.example2').get(i).className = "example2";
+                $('button.example2').get(i).textContent = "Elemento vacío";
             }
         }
             
@@ -76,47 +80,6 @@ $(document).ready(() => {
           'json'
         );
    });
-    
-
-    
-   /* 
-     $.get("/bonito", {}, (data) => {
-        console.log ("entrando aqui ");
-        for (var i = 0; i < 4; i++) {
-            console.log ("mostrando pepino " + data[i]);
-            if (data[i]) {
-                $('button.example2').get(i).className = "example2";
-                $('button.example2').get(i).textContent = data[i].id;
-            }
-        }
-    });
-    */
-    
-    /* Request AJAX para que se busque el usuario */
-
-
-   /* $("#usuario").click( () => {
-        if (window.localStorage) localStorage.user = user.value;
-        console.log("usaer.value en cliente");
-        console.log(user.value);
-        $.get("/usuario", 
-          { user: user.value }
-        );
-        $.get("/bonito",
-          { user: user.value
-          },
-          (data) => {
-             
-             for (var i = 0; i < 8; i++){
-                 if (data[i]) {
-                     $('button.example').get(i).className = "example";
-                     $('button.example').get(i).textContent = data[i].id;
-                 }
-             }
-             
-          }
-        );
-   });    */
 
     //Request AJAX para que se calcule la tabla 
     $("#parse").click( () => {
@@ -132,6 +95,7 @@ $(document).ready(() => {
    
    $("#saving").click( () => { 
       var dataString = $('#original').val();
+  
       console.log('Valor dataString: '+ dataString);
       if (window.localStorage) localStorage.original = original.value;
       var id=$('#id').val();
@@ -154,14 +118,44 @@ $(document).ready(() => {
 });
 
 
+
 //Botones de usuario
 
-      $("#").click( () => { 
+      $("#saving_usuario").click( () => { 
+       var dataString = $('#original').val();
+       var informacion = $('#userid').val();
+      console.log('Valor dataString: '+ dataString);
+      if (window.localStorage) localStorage.original = original.value;
+      var id=$('#id2').val();
+      
+      console.log('Valor id: ' + id);
+      $.get('/botonusuario/' + id, {
+         dataString,
+         informacion
+        });
+        
+        var informacion = $('#userid').val();
+      $.get('/bonito' , {
+         informacion},
+         (data) => {
+        console.log ("entrando aqui ");
+        for (var i = 0; i < 4; i++) {
+            console.log ("mostrando pepino %o", data);
+            
+            if (data[i]) {
+                $('button.example2').get(i).className = "example2";
+                $('button.example2').get(i).textContent = data[i].id;
+            }
+            else{
+                 $('button.example2').get(i).className = "example2";
+                $('button.example2').get(i).textContent = "Elemento vacío";
+            }
+        }
+            
+         
+    });
           
-          
-          
-      });
-
+});
 
     
     
@@ -180,7 +174,7 @@ const resultTemplate = `
 </div>
 `;
 
-/* Volcar la tabla con el resultado en el HTML */
+// Volcar la tabla con el resultado en el HTML 
 const fillTable = (data) => { 
   $("#finaltable").html(_.template(resultTemplate, { rows: data.rows })); 
 };
@@ -198,11 +192,9 @@ const fillTable = (data) => {
         });
        });
    });
+
    
-   
-   
-   
-      // botones para rellenar el textarea 
+// Botones para rellenar el textarea 
     $('button.example2').each( (_,y) => {
          //console.log($(y).text());
 
@@ -211,13 +203,15 @@ const fillTable = (data) => {
             id: $(y).text()
        },
         (data) => {
+            console.log("datamagico" + data + "tuprimalacoja");
+            if (data==""){
+                $("#original").val("Elemento vacío");
+            }
+            else
             $("#original").val(data[0].data);
         });
        });
    });
-   
-   
-   
    
    
     $.get("/encuentra", {}, (data) => {
@@ -231,10 +225,6 @@ const fillTable = (data) => {
         }
     });
     
-   
-   
-   
-   
 
     // Setup the drag and drop listeners.
     //var dropZone = document.getElementsByClassName('drop_zone')[0];

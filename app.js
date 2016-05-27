@@ -29,50 +29,6 @@ app.get('/csv', (request, response) => {
   
 });
 
-//Cuando se introduce un nombre de usuario
-
-/*app.get('/usuario', (request, response) => {
-    console.log ("usuario");
-    
-    
-    //console.log(request.query.user);
-    //console.log(Person);    
-
-      Person.find({
-          name: request.query.user},
-            function(err,data) {
-                if(err)
-                {
-                    console.error("Se ha producido un error");
-                }
-                else
-                {
-                   // console.log("data   ");  
-                    //console.log(data);
-                    //console.log("data de 0");  
-                    //console.log(data[0]);
-                    //console.log("Enviando datos a csv.js => Id de usuario:"+data[0].name);
-                    const id = mongoose.Types.ObjectId(data[0]._id);
-                    
-                    Story.find({_creator: id},{upsert: true},
-                        function(err,docs) {
-                            if(err)
-                            {
-                                console.error("Se ha producido un error->"+err);
-                            }
-                            else
-                            {
-                                console.log("Enviando datos a csv.js => Tablas asociadas:"+data);    
-                            }
-                            response.send({contenido: docs, usuario: id});
-                    });
-                    
-                    
-                }
-    });
-    
-  
-});*/
 
 //Cuando se guarda el nombre
 
@@ -103,6 +59,51 @@ app.get('/mongo/:nombre', function(req, res) {
 });
 
 
+
+
+
+app.get('/botonusuario/:nombre', function(req, res) {
+    console.log("alfonso");
+    
+  /* ... Consultar la base de datos y retornar contenidos de input1 ... */
+        var id;
+        console.log ("quinto " + req.query.informacion);
+        Person.find({name: req.query.informacion}, function(err, docu){
+            if (err) return err;
+            
+            console.log("docu " + docu);
+            id = docu[0]._id;
+            console.log("docu " + id);
+        
+        
+            let c4 = new basedatos.Onwer({
+                "id": req.params.nombre,
+                "data": req.query.dataString,
+                "_creator": id
+             });
+        
+            c4.save(function(err) {
+                if (err) return err;
+                console.log(`Guardado: ${c4}`);
+            });
+    
+              
+            Owner.find({_creator: id}, function (err,docs){
+            if (err) return err;
+            console.log("docs serios: " + docs)
+            if (docs.length >= 4) {
+            Owner.remove({ id: docs[3].id }).exec();
+            Owner.insert({id: req.params.nombre, data: req.query.dataString, _creator: id});
+            }
+
+            });
+    
+     
+        });
+});
+
+
+
 app.get('/encuentra', function(req, res) {
     console.log("tu prima");
     basedatos.Csv.find({}, function(err, docs) {
@@ -118,46 +119,21 @@ app.get('/encuentra', function(req, res) {
 
 app.get('/bonito', function(req, res) {
     console.log ("primero " + req.query.informacion);
-        var update = {name: req.query.informacion, csv: []}
+        var update = {name: req.query.informacion, csv: null}
     Person.findOneAndUpdate({name: req.query.informacion}, update, {upsert: true, 'new':true}, function(err, docs) {
         if (err)  console.log (err);
-
-        console.log ("docs " + utils.inspect(docs, {depth: null}));
-    
-        console.log("id aaron " + docs._id);
-    basedatos.Owner.find({id: docs._id}, function (err, datos){
-        if (err){
-            
-            console.log (err);
-        }
-        console.log ("prueba " + datos );
-        res.send(datos);
-        });
-    });
-});
-
-/*
-
-app.get('/bonito', function(req, res) {
-    console.log ("primero " + req.query.informacion);
-    Person.find({name: req.query.informacion},function(err, docs) {
-        if (err){
-            console.log (err);
-        } 
+        
+        
         console.log ("docs " + utils.inspect(docs, {depth: null}));
         
-        console.log("id aaron " + docs[0]._id);
-        //const id = mongoose.Types.ObjectId(docs._id);
-       //console.log("textaco " + id);
-    basedatos.Owner.find({}, function (err, datos){
-        if (err){
-            console.log (err);
-        }
-        console.log ("prueba " + datos );
+        
+    basedatos.Owner.find({"_creator": docs._id}, function (err, datos){
+        if (err) console.log (err);
         res.send(datos);
-        });
-    });
-});*/
+        }); // owner.find
+    }); //person.find
+}); // call bonito
+
 
 
 /*Se devuelve como respuesta la entrada correspondiente al nombre

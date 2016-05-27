@@ -1,14 +1,14 @@
 {
-  "name": "practica",
+  "name": "Proyecto",
   "version": "1.0.0",
-  "description": "Analizador de cadenas csv usando AJAX",
+  "description": "Mongoose y Populations",
   "main": "app.js",
   "scripts": {
     "test": "firefox tests/index.html"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ULL-ESIT-GRADOII-DSI/ajax-ecma6-ficheros-rossiel-nitesh-nico1"
+    "url": "https://github.com/ULL-ESIT-GRADOII-DSI/mongoose-y-populations-rossiel-nitesh-nico1"
   },
   "keywords": [
     "csv"
