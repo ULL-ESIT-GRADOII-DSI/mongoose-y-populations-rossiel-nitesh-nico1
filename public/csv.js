@@ -54,7 +54,7 @@ $(document).ready(() => {
          informacion},
          (data) => {
         for (var i = 0; i < 4; i++) {
-            console.log ("mostrando pepino %o", data);
+           // console.log ("mostrando pepino %o", data);
             
             if (data[i]) {
                 $('button.example2').get(i).className = "example2";
@@ -96,7 +96,7 @@ $(document).ready(() => {
    $("#saving").click( () => { 
       var dataString = $('#original').val();
   
-      console.log('Valor dataString: '+ dataString);
+     // console.log('Valor dataString: '+ dataString);
       if (window.localStorage) localStorage.original = original.value;
       var id=$('#id').val();
       
@@ -124,24 +124,24 @@ $(document).ready(() => {
       $("#saving_usuario").click( () => { 
        var dataString = $('#original').val();
        var informacion = $('#userid').val();
-      console.log('Valor dataString: '+ dataString);
+      //console.log('Valor dataString: '+ dataString);
      // if (window.localStorage) localStorage.original = original.value;
       var id=$('#id2').val();
       
-      console.log('Valor id: ' + id);
+    //  console.log('Valor id: ' + id);
       
       $.get('/botonusuario/' + id, {
          dataString,
          informacion 
         });
         
-        console.log('Valor informacion: ' + informacion);
+      //  console.log('Valor informacion: ' + informacion);
       $.get('/bonito' , {
          informacion},
          (data) => {
-        console.log ("entrando aqui ");
+       // console.log ("entrando aqui ");
         for (var i = 0; i < 4; i++) {
-            console.log ("mostrando pepino %o", data);
+          //  console.log ("mostrando pepino %o", data);
             
             if (data[i]) {
                 $('button.example2').get(i).className = "example2";
@@ -203,7 +203,7 @@ const fillTable = (data) => {
             id: $(y).text(),
        },
         (data) => {
-            console.log("datamagico" + data + "tuprimalacoja");
+            //console.log("datamagico" + data + "tuprimalacoja");
             if (data==""){
                 $("#original").val("Elemento vacío");
             }

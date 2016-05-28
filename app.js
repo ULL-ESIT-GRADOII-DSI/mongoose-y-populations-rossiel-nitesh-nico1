@@ -70,50 +70,14 @@ app.get('/botonusuario/:nombre', function(req, res) {
             console.log("docu " + docu);
 
             numero_creador = docu[0]._id;
-            console.log("docu length" + docu.length);
-            
+           
             Owner.find({"_creator": docu._id}, function (err, datos){
                 if (err) console.log (err);
                 console.log("length" + datos.length);
                 if(datos.length >=4){
-                console.log("datos antes" + datos);
-                console.log("contenido " + datos[3].id);
                     Owner.remove({ id: datos[3].id }).exec();
-                    console.log("despues " +datos);
-                    console.log(datos[3].id);
                 }
-/*            Owner.count({"_creator" : id}, function(err, botones){
-                
-                console.log("botones" + botones);
-                console.log("id para buscar el propietario " + id);
-          
-                if(botones >= 4) { 
-                    console.log("lista " + botones);
-            //        Owner.find({"_creator": id}, function (err, datos){
-            //            if (err) console.log (err);
-                        console.log("Datos " +  datos);
-                        Owner.remove({ id: datos[3].id }).exec();
-           //         });
-                }    
-            });
-                
-            let c4 = new basedatos.Owner({
-                "id": req.params.nombre,
-                "data": req.query.dataString,
-                "_creator": id
-            });
-       
-            c4.save(function(err) {
-                if (err) return err;
-                console.log(`Guardado: ${c4}`);
-            });
-            
-            });*/
 
-/*         Person.find({name: req.query.informacion}, function(err, docu){
-            if (err) return err;
-            console.log ("superid " +docu)
-            console.log ("prueba111 " + docu.name) // NO ENTIENDO POR que no sale pese a ser una funcion nueva.*/ 
             
             
             let c4 = new basedatos.Owner({
@@ -129,7 +93,7 @@ app.get('/botonusuario/:nombre', function(req, res) {
                 });
                 
                 
-                console.log("Botones que se han guardando" + docu); 
+               // console.log("Botones que se han guardando" + docu); 
                 
             });
                 
@@ -157,12 +121,12 @@ app.get('/bonito', function(req, res) {
         if (err)  console.log (err);
         
         
-        console.log ("Bonito docs " + utils.inspect(docs, {depth: null}));
+       // console.log ("Bonito docs " + utils.inspect(docs, {depth: null}));
         
         
     basedatos.Owner.find({"_creator": docs._id}, function (err, datos){
         if (err) console.log (err);
-        console.log("Owners" + datos);
+        //console.log("Owners" + datos);
         res.send(datos);
         }); // owner.find
     }); //person.find
@@ -185,7 +149,7 @@ app.get('/strong', function(req, res) {
     basedatos.Owner.find({
         id: req.query.id
     }, function(err, docs) {
-        console.log("Rellena textarea" + docs);
+    //    console.log("Rellena textarea" + docs);
         res.send(docs);
     });
 });
