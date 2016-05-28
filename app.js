@@ -42,8 +42,7 @@ app.get('/mongo/:nombre', function(req, res) {
         if (docs.length >= 4) {
             basedatos.Csv.remove({ id: docs[3].id }).exec();
         }
-  });
-        //este let se hace en el schema (no se puede crear una variable nueva así) [mirar como se ha de hacer]
+    });
         let c4 = new basedatos.Csv({
         "id": req.params.nombre,
         "data": req.query.dataString
@@ -53,59 +52,94 @@ app.get('/mongo/:nombre', function(req, res) {
         if (err) {
             return err;
         }
-        console.log(`Guardado: ${c4}`);
+        console.log(`Guardado mongo/nombre: ${c4}`);
         
-    });
-});
-
-
-
-
-
-app.get('/botonusuario/:nombre', function(req, res) {
-    console.log("alfonso");
-    
-  /* ... Consultar la base de datos y retornar contenidos de input1 ... */
-        var id;
-        console.log ("quinto " + req.query.informacion);
-        Person.find({name: req.query.informacion}, function(err, docu){
-            if (err) return err;
-            
-            console.log("docu " + docu);
-            id = docu[0]._id;
-            console.log("docu " + id);
-        
-        
-            let c4 = new basedatos.Onwer({
-                "id": req.params.nombre,
-                "data": req.query.dataString,
-                "_creator": id
-             });
-        
-            c4.save(function(err) {
-                if (err) return err;
-                console.log(`Guardado: ${c4}`);
-            });
-    
-              
-            Owner.find({_creator: id}, function (err,docs){
-            if (err) return err;
-            console.log("docs serios: " + docs)
-            if (docs.length >= 4) {
-            Owner.remove({ id: docs[3].id }).exec();
-            Owner.insert({id: req.params.nombre, data: req.query.dataString, _creator: id});
-            }
-
-            });
-    
-     
         });
 });
 
 
 
+app.get('/botonusuario/:nombre', function(req, res) {
+
+  /* ... Consultar la base de datos y retornar contenidos de input1 ... */
+        let numero_creador;
+        console.log ("quinto " + req.query.informacion);
+        Person.find({name: req.query.informacion}, function(err, docu){
+            if (err) return err;
+            
+            console.log("docu " + docu);
+
+            numero_creador = docu[0]._id;
+            console.log("docu length" + docu.length);
+            
+            Owner.find({"_creator": docu._id}, function (err, datos){
+                if (err) console.log (err);
+                console.log("length" + datos.length);
+                if(datos.length >=4){
+                console.log("datos antes" + datos);
+                console.log("contenido " + datos[3].id);
+                    Owner.remove({ id: datos[3].id }).exec();
+                    console.log("despues " +datos);
+                    console.log(datos[3].id);
+                }
+/*            Owner.count({"_creator" : id}, function(err, botones){
+                
+                console.log("botones" + botones);
+                console.log("id para buscar el propietario " + id);
+          
+                if(botones >= 4) { 
+                    console.log("lista " + botones);
+            //        Owner.find({"_creator": id}, function (err, datos){
+            //            if (err) console.log (err);
+                        console.log("Datos " +  datos);
+                        Owner.remove({ id: datos[3].id }).exec();
+           //         });
+                }    
+            });
+                
+            let c4 = new basedatos.Owner({
+                "id": req.params.nombre,
+                "data": req.query.dataString,
+                "_creator": id
+            });
+       
+            c4.save(function(err) {
+                if (err) return err;
+                console.log(`Guardado: ${c4}`);
+            });
+            
+            });*/
+
+/*         Person.find({name: req.query.informacion}, function(err, docu){
+            if (err) return err;
+            console.log ("superid " +docu)
+            console.log ("prueba111 " + docu.name) // NO ENTIENDO POR que no sale pese a ser una funcion nueva.*/ 
+            
+            
+            let c4 = new basedatos.Owner({
+                    "id": req.params.nombre,
+                    "data": req.query.dataString,
+                    "_creator": numero_creador
+                });
+
+           
+                c4.save(function(err) {
+                    if (err) return err;
+                    console.log(`Guardado: ${c4}`);
+                });
+                
+                
+                console.log("Botones que se han guardando" + docu); 
+                
+            });
+                
+        });    
+
+});
+
+
+
 app.get('/encuentra', function(req, res) {
-    console.log("tu prima");
     basedatos.Csv.find({}, function(err, docs) {
         if (err)
             return err;
@@ -118,17 +152,17 @@ app.get('/encuentra', function(req, res) {
 
 
 app.get('/bonito', function(req, res) {
-    console.log ("primero " + req.query.informacion);
-        var update = {name: req.query.informacion, csv: null}
+        var update = {name: req.query.informacion, csv: []}
     Person.findOneAndUpdate({name: req.query.informacion}, update, {upsert: true, 'new':true}, function(err, docs) {
         if (err)  console.log (err);
         
         
-        console.log ("docs " + utils.inspect(docs, {depth: null}));
+        console.log ("Bonito docs " + utils.inspect(docs, {depth: null}));
         
         
     basedatos.Owner.find({"_creator": docs._id}, function (err, datos){
         if (err) console.log (err);
+        console.log("Owners" + datos);
         res.send(datos);
         }); // owner.find
     }); //person.find
@@ -151,6 +185,7 @@ app.get('/strong', function(req, res) {
     basedatos.Owner.find({
         id: req.query.id
     }, function(err, docs) {
+        console.log("Rellena textarea" + docs);
         res.send(docs);
     });
 });

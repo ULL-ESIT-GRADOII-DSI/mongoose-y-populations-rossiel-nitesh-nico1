@@ -125,16 +125,17 @@ $(document).ready(() => {
        var dataString = $('#original').val();
        var informacion = $('#userid').val();
       console.log('Valor dataString: '+ dataString);
-      if (window.localStorage) localStorage.original = original.value;
+     // if (window.localStorage) localStorage.original = original.value;
       var id=$('#id2').val();
       
       console.log('Valor id: ' + id);
+      
       $.get('/botonusuario/' + id, {
          dataString,
-         informacion
+         informacion 
         });
         
-        var informacion = $('#userid').val();
+        console.log('Valor informacion: ' + informacion);
       $.get('/bonito' , {
          informacion},
          (data) => {
@@ -197,10 +198,9 @@ const fillTable = (data) => {
 // Botones para rellenar el textarea 
     $('button.example2').each( (_,y) => {
          //console.log($(y).text());
-
      $(y).click( () => { 
        $.get("/strong", {
-            id: $(y).text()
+            id: $(y).text(),
        },
         (data) => {
             console.log("datamagico" + data + "tuprimalacoja");
