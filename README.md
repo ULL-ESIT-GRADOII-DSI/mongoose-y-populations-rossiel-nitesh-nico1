@@ -11,7 +11,3 @@
 ### Enlace al repositorio git de la práctica:
 
 * [Mongoose y Populations](https://github.com/ULL-ESIT-GRADOII-DSI/mongoose-y-populations-rossiel-nitesh-nico1)
-
-### Enlace a HEROKU:
-
-* [App en Heroku](https://proyectofinalniteshnicorossiel.herokuapp.com/)
